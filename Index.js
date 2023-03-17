@@ -27,9 +27,15 @@ App.get(
             return
         }
 
+        const Versions = GetVersions(Package)
+        if (!Versions) {
+            Response.send(false)
+            return
+        }
+
         const Output = {
             Name: Package,
-            Versions: Object.keys(GetVersions(Package))
+            Versions: Object.keys(Versions)
         }
 
         Response.send(Output)
@@ -49,6 +55,11 @@ App.get(
         }
 
         const Versions = GetVersions(Package)
+        console.log(Versions)
+        if (!Versions) {
+            Response.send(false)
+            return
+        }
         const MatchingVersion = SemVer.maxSatisfying(Object.keys(Versions), Version)
         const Output = {
             Name: Package,
