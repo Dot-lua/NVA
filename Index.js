@@ -55,7 +55,6 @@ App.get(
         }
 
         const Versions = GetVersions(Package)
-        console.log(Versions)
         if (!Versions) {
             Response.send(false)
             return
@@ -68,6 +67,21 @@ App.get(
         }
 
         Response.send(Output)
+    }
+)
+
+App.get(
+    "/exists/",
+    async function (Request, Response) {
+        console.log(Request.query.q)
+
+        const Package = Request.query.q
+        if (!PackageNameRegex.test(Package)) {
+            Response.send(false)
+            return
+        }
+
+        Response.send(Fetch(`https://registry.npmjs.org/${Package}/latest`).status != 404)
     }
 )
 
